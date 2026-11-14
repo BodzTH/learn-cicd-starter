@@ -17,7 +17,7 @@ func TestGetAPIKey(t *testing.T) {
 	}
 	header.Set("Authorization", "ApiKey ")
 	got, _ = GetAPIKey(header)
-	want = " "
+	want = ""
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("expected: %v, got: %v", want, got)
 	}
