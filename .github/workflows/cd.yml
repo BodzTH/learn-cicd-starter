@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
       - id: auth
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: 'projects/881141631209/locations/global/workloadIdentityPools/github/providers/my-repo'
           service_account: 'cloud-run-deployer@project-5be11a48-401b-42ce-9ed.iam.gserviceaccount.com'
-
-      - name: Check out code
-        uses: actions/checkout@v6
 
       - name: Set up Go
         uses: actions/setup-go@v6
