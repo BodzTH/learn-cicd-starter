@@ -3,11 +3,22 @@ on:
   push:
     branches: [main]
 jobs:
+
   deploy:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     name: Deploy
     runs-on: ubuntu-latest
 
     steps:
+      - id: auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: 'projects/881141631209/locations/global/workloadIdentityPools/github/providers/my-repo'
+          service_account: 'cloud-run-deployer@project-5be11a48-401b-42ce-9ed.iam.gserviceaccount.com'
+
       - name: Check out code
         uses: actions/checkout@v6
 
@@ -18,3 +29,10 @@ jobs:
 
       - name: Build App
         run: scripts/buildprod.sh
+
+      - name: Push Image to GAR
+        run: gcloud builds submit --tag us-central1-docker.pkg.dev/project-5be11a48-401b-42ce-9ed/notely-ar-repo/notely:latest .
+
+
+
+
